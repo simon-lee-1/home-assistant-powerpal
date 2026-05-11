@@ -1,0 +1,24 @@
+[Unit]
+Description=Powerpal BLE Gateway
+After=bluetooth.target dbus.service
+Wants=bluetooth.target
+
+[Service]
+TimeoutStartSec=60
+Type=notify
+WatchdogSec=600
+ExecStart=/usr/bin/python3 /opt/powerpal-ble-gateway/powerpal_ble_gateway.py
+WorkingDirectory=/opt/powerpal-ble-gateway
+EnvironmentFile=/opt/powerpal-ble-gateway/.env.ble
+Restart=always
+RestartSec=10
+
+# Run as the user who has BlueZ access
+User=simon
+Group=simon
+
+# Allow Bluetooth access
+SupplementaryGroups=bluetooth
+
+[Install]
+WantedBy=multi-user.target
